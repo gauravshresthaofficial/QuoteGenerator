@@ -55,3 +55,101 @@ const selectedCategory = getEle("selectedCategory");
 const themeToggle = getEle("themeToggle");
 const increaseFontBtn = getEle("increaseFont");
 const decreaseFontBtn = getEle("decreaseFont");
+
+let currentCategory = "";
+let currentIndex = 0;
+let currentQuotes = [];
+let fontSize = 20;
+
+function getRandomCategory() {
+  const categories = Object.keys(quotes);
+  return categories[Math.floor(Math.random() * categories.length)];
+}
+
+function initRandomQuote() {
+  const randomCat = getRandomCategory();
+  currentCategory = randomCat;
+  currentQuotes = quotes[randomCat];
+  currentIndex = Math.floor(Math.random() * currentQuotes.length);
+  selectedCategory.value = randomCat;
+  displayQuote();
+}
+
+function displayQuote() {
+  if (currentQuotes.length > 0) {
+    quoteBox.textContent = currentQuotes[currentIndex];
+    quoteBox.style.fontSize = `${fontSize}px`;
+  } else {
+    quoteBox.textContent = "Please select a category";
+  }
+}
+
+function updateQuotes() {
+  currentCategory = selectedCategory.value;
+  currentQuotes = quotes[currentCategory] || [];
+  currentIndex = 0;
+  displayQuote();
+}
+
+function toggleTheme() {
+  document.body.dataset.theme = themeToggle.checked ? "dark" : "";
+  localStorage.setItem("darkMode", themeToggle.checked);
+}
+
+function updateTheme() {
+  const darkMode = localStorage.getItem("darkMode") === "true";
+  themeToggle.checked = darkMode;
+  document.body.dataset.theme = darkMode ? "dark" : "";
+}
+
+function setupEventListeners() {
+  selectedCategory.addEventListener("change", () => {
+    updateQuotes();
+  });
+
+  prevBtn.addEventListener("click", () => {
+    if (currentQuotes.length > 0) {
+      currentIndex =
+        (currentIndex - 1 + currentQuotes.length) % currentQuotes.length;
+      displayQuote();
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (currentQuotes.length > 0) {
+      currentIndex = (currentIndex + 1) % currentQuotes.length;
+      displayQuote();
+    }
+  });
+
+  randomBtn.addEventListener("click", () => {
+    if (currentQuotes.length > 0) {
+      currentIndex = Math.floor(Math.random() * currentQuotes.length);
+      displayQuote();
+    }
+  });
+
+  themeToggle.addEventListener("change", toggleTheme);
+
+  increaseFontBtn.addEventListener("click", () => {
+    fontSize += 2;
+    quoteBox.style.fontSize = `${fontSize}px`;
+    localStorage.setItem("quoteFontSize", fontSize);
+  });
+
+  decreaseFontBtn.addEventListener("click", () => {
+    fontSize = Math.max(fontSize - 2, 12);
+    quoteBox.style.fontSize = `${fontSize}px`;
+    localStorage.setItem("quoteFontSize", fontSize);
+  });
+
+  const savedFontSize = localStorage.getItem("quoteFontSize");
+  if (savedFontSize) {
+    fontSize = parseInt(savedFontSize);
+    quoteBox.style.fontSize = `${fontSize}px`;
+  }
+}
+
+setupEventListeners();
+updateTheme();
+initRandomQuote();
