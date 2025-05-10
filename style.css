@@ -150,3 +150,25 @@ input:checked + .slider:before {
 }
 
 
+@media (max-width: 600px) {
+  .container {
+    padding: 15px;
+  }
+  
+  #quoteBox {
+    min-height: 120px;
+    font-size: 18px;
+    padding: 15px;
+  }
+  
+  .button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  
+  .theme-toggle {
+    bottom: 10px;
+    right: 10px;
+    padding: 8px;
+  }
+}
