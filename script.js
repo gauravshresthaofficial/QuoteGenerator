@@ -42,3 +42,16 @@ const quotes = {
     "Why can't you hear a pterodactyl go to the bathroom? Because the 'P' is silent.",
   ],
 };
+
+function getEle(Ele) {
+  return document.getElementById(Ele);
+}
+
+const quoteBox = getEle("quoteBox");
+const prevBtn = getEle("prevBtn");
+const nextBtn = getEle("nextBtn");
+const randomBtn = getEle("randomBtn");
+const selectedCategory = getEle("selectedCategory");
+const themeToggle = getEle("themeToggle");
+const increaseFontBtn = getEle("increaseFont");
+const decreaseFontBtn = getEle("decreaseFont");
